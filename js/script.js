@@ -20,7 +20,10 @@ Ricordatevi che se non sappiamo quante volte dobbiamo fare una cosa ci serve… 
 
 var bombe = [];
 var tentativo = [];
-//FYNZIONE per generare numeri casuali tra 1 e 100
+var maxTentativi = 10;
+//invece di 84
+
+//FUNZIONE per generare numeri casuali tra 1 e 100
 function generatoreNumeriCasuali (min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
@@ -61,14 +64,53 @@ function inUnArray (elemento, array) {
 
 while (bombe.length < 16) {
 
+    //i numeri generati casualamente non devono essere uguali tra di loro
     var numero = generatoreNumeriCasuali(1 , 100);
     //console.log(generatoreNumeriCasuali(1 , 100));
 
+    //i numeri generati casualamente non devono essere uguali tra di loro
+    //per eseguire quello dentro le parentesi la condizione deve essere vera
     if (inUnArray(numero, bombe) == false) {
         bombe.push(numero);
-        console.log("dentro if ", bombe.length);
+        //console.log("dentro if ", bombe.length);
     }
 
 }
 
 console.log(bombe);
+
+
+while (tentativo.length < 10){
+
+
+        var numeroUtente = parseInt(prompt("Inserisci qui un numero da 1 a 100"));
+        console.log(numeroUtente);
+
+        if (inUnArray(numeroUtente, tentativo) == false) {
+            tentativo.push(numeroUtente);
+            console.log(tentativo);
+        }else if (inUnArray(numeroUtente, tentativo) == inUnArray(numero, bombe)) {
+            console.log("GAME OVER");
+        }
+    
+        
+}
+
+
+
+
+/* 
+do {
+
+    var numeroUtente = parseInt(prompt("Inserisci qui un numero da 1 a 100"));
+    console.log(numeroUtente);
+
+    tentativo.push(numeroUtente);
+
+} while(isNaN(numeroUtente) || numeroUtente < 1 || numeroUtente > 100 || inUnArray(numeroUtente, tentativo)); */
+
+/* if (inUnArray(numeroUtente, tentativo) == false) {
+    console.log(tentativo);
+}else if (inUnArray(numeroUtente, tentativo) == inUnArray(numero, bombe)) {
+    console.log("GAME OVER");
+}  */
