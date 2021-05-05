@@ -17,11 +17,41 @@ Proviamo prima con pochi numeri, inserire 84 numeri ogni volta potrebbe essere u
 Le validazioni e i controlli possiamo farli anche in un secondo momento.
 Ricordatevi che se non sappiamo quante volte dobbiamo fare una cosa ci serve… */
 
+/* BONUS: (da fare solo se funziona tutto il resto)
+all'inizio il software richiede anche una difficoltà all'utente che cambia il range di numeri casuali:
+con difficoltà 0 => tra 1 e 100
+con difficoltà 1 => tra 1 e 80
+con difficoltà 2 => tra 1 e 50 */
+
 
 var bombe = [];
 var tentativo = [];
-var maxTentativi = 10;
-//invece di 84
+var maxTentativi;
+maxTentativi = 84;
+
+//sono riuscita a finire l'esercio solo guardando il video della mattina, mi ero bloccata all'if del secondo while
+//ho provato una soluzione alternativa annidando due if (non so se è corretto, ma il risultato mi tornava!)
+//PROVA parte BONUS, per finire questa parte, dovrei togliere a tutti 16, facendo una var estena
+
+do {
+    var sceltaDifficoltà = parseInt(prompt("Scegli il grado di difficoltà inserendo:\n 0 : facile\n 1 : Medio \n 2 : Difficile"));
+}while (isNaN(sceltaDifficoltà) || sceltaDifficoltà > 2 || sceltaDifficoltà < 0);
+
+switch (sceltaDifficoltà) {
+    case 0:
+        maxTentativi = 100
+        break;
+    case 1: 
+        maxTentativi = 80
+        break;
+    case 2: 
+        maxTentativi = 50
+        break;
+    default:
+        text = "Non hai scelto nessuna delle possibili opzioni"
+}
+console.log(maxTentativi);
+console.log(sceltaDifficoltà);
 
 //FUNZIONE per generare numeri casuali tra 1 e 100
 function generatoreNumeriCasuali (min, max) {
@@ -41,27 +71,6 @@ function inUnArray (elemento, array) {
     return false
 }
 
-
-//Il computer deve generare 16 numeri casuali tra 1 e 100.
-/* for (var i = 0; i < 16; i++) {
-
-    var numero = generatoreNumeriCasuali(1 , 100);
-    //console.log(generatoreNumeriCasuali(1 , 100));
-    console.log(i);
-    
-    do {
-        //i numeri generati casualamente non devono essere uguali tra di loro
-        if (inUnArray(numero, bombe) == false) {
-        bombe.push(numero);
-        console.log("dentro if ", i);
-        console.log("dentro if ", bombe.length);
-        }
-    //devono rimanere dentro al ciclo fino a quando raggiungo array di 16
-    //fino a che è vera deve restare dentro
-    //una volta falsa esce e continua il codice
-    } while(bombe.length < 16);  
-} */
-
 while (bombe.length < 16) {
 
     //i numeri generati casualamente non devono essere uguali tra di loro
@@ -77,11 +86,44 @@ while (bombe.length < 16) {
 
 }
 
-console.log(bombe);
+console.log("Array BOMBE ", bombe);
+
+var gameOver = false;
+
+while (tentativo.length < maxTentativi && gameOver == false){
+
+    /* L'utente non può inserire più volte lo stesso numero.
+    Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all'utente un altro numero. */
+
+        var numeroUtente = parseInt(prompt("Inserisci qui un numero da 1 a " + maxTentativi));
+        console.log(numeroUtente);
+
+        //come faccio a verificare se ho perso o no
+        //quando il mio numeroUtente è uguale ad un numero dell'array Bombe
+        if (inUnArray(numeroUtente, bombe)) {
+            gameOver = true;
+            console.log("Hai perso" + "Punteggio " + tentativo.length);
+            //console.log(numeroUtente);
+            //console.log(bombe);
+        } else if (inUnArray(numeroUtente, tentativo) == false) {
+            tentativo.push(numeroUtente);
+            console.log("Non hai preso la bomba" + "Punteggio " + tentativo.length)
+        } 
+        console.log(numeroUtente, tentativo.length);
+        
+}
+console.log(tentativo);
+//se fai 10 tentativi senza beccare la bomba vinci
+if (tentativo.length == maxTentativi){
+    console.log("Hai Vinto");
+} 
 
 
-while (tentativo.length < 10){
+//SOLUZIONE ALTERNATIVA
+/* while (tentativo.length < 10){
 
+    L'utente non può inserire più volte lo stesso numero.
+    Se il numero è presente nella lista dei numeri generati, la partita termina, altrimenti si continua chiedendo all'utente un altro numero.
 
         var numeroUtente = parseInt(prompt("Inserisci qui un numero da 1 a 100"));
         console.log(numeroUtente);
@@ -89,28 +131,16 @@ while (tentativo.length < 10){
         if (inUnArray(numeroUtente, tentativo) == false) {
             tentativo.push(numeroUtente);
             console.log(tentativo);
-        }else if (inUnArray(numeroUtente, tentativo) == inUnArray(numero, bombe)) {
-            console.log("GAME OVER");
+
+            //Ho annidato un if dentro un altro if
+
+            if (inUnArray(numeroUtente, bombe) == false) {
+                console.log("non ho trovato una bomba e vado avanti" + " " + "Punteggio " + tentativo.length);
+            } else {
+                console.log("Ho trovato la bomba" + " " + "Punteggio " + tentativo.length);
+                break;
+            }
         }
-    
-        
+
 }
-
-
-
-
-/* 
-do {
-
-    var numeroUtente = parseInt(prompt("Inserisci qui un numero da 1 a 100"));
-    console.log(numeroUtente);
-
-    tentativo.push(numeroUtente);
-
-} while(isNaN(numeroUtente) || numeroUtente < 1 || numeroUtente > 100 || inUnArray(numeroUtente, tentativo)); */
-
-/* if (inUnArray(numeroUtente, tentativo) == false) {
-    console.log(tentativo);
-}else if (inUnArray(numeroUtente, tentativo) == inUnArray(numero, bombe)) {
-    console.log("GAME OVER");
-}  */
+ */
